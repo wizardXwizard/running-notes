@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Viewer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="file-container">
+        <button id="back-button">Back to File List</button>
+        <pre id="file-content"></pre>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const fileName = urlParams.get('file');
+            const fileContent = document.getElementById('file-content');
+            const backButton = document.getElementById('back-button');
+
+            if (fileName) {
+                fetch(fileName)
+                    .then(response => response.text())
+                    .then(text => {
+                        fileContent.textContent = text;
+                    })
+                    .catch(error => {
+                        fileContent.textContent = 'Error loading file: ' + error.message;
+                    });
+            }
+
+            backButton.addEventListener('click', () => {
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>
